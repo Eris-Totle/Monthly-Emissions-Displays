@@ -5,8 +5,8 @@ import requests
 from datetime import datetime, timedelta
 
 # PostgreSQL connection details
-USERNAME = 'postgres'
-PASSWORD = 'Password'
+USERNAME = ''
+PASSWORD = ''
 HOST = 'localhost'
 PORT = '5432'
 DATABASE = 'postgres'
