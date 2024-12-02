@@ -28,7 +28,7 @@ def insert_data_to_postgresql(engine, df, table_name):
         print(f"No data to insert into {table_name}.")
 
 
-API_KEY = 'eWMLYHSwuDyZYHnGxGdhrjffaFgFvlscMSQO2zop'
+API_KEY = ''
 
 @task(retries=3, retry_delay_seconds=60)
 def fetch_streaming_data():
