@@ -7,9 +7,9 @@ from datetime import datetime, timedelta
 # PostgreSQL connection details
 USERNAME = ''
 PASSWORD = ''
-HOST = 'localhost'
-PORT = '5432'
-DATABASE = 'postgres'
+HOST =''
+PORT = ''
+DATABASE = ''
 
 # create PostgreSQL engine
 def create_postgres_engine(username, password, host, port, database):
