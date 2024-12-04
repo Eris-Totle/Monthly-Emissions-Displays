@@ -1,22 +1,22 @@
 from prefect import flow, task
-import pandas as pd
+from datetime import timedelta, datetime
 from sqlalchemy import create_engine
+import pandas as pd
 import requests
-from datetime import datetime, timedelta
 
 # PostgreSQL connection details
 USERNAME = ''
 PASSWORD = ''
-HOST =''
+HOST = ''
 PORT = ''
 DATABASE = ''
 
-# create PostgreSQL engine
+# Create postgres engine
 def create_postgres_engine(username, password, host, port, database):
     connection_string = f"postgresql://{username}:{password}@{host}:{port}/{database}"
     return create_engine(connection_string)
 
-# insert data into PostgreSQL
+# Insert data into postgres
 def insert_data_to_postgresql(engine, df, table_name):
     if not df.empty:
         try:
@@ -26,7 +26,6 @@ def insert_data_to_postgresql(engine, df, table_name):
             print(f"Error inserting data into {table_name}: {e}")
     else:
         print(f"No data to insert into {table_name}.")
-
 
 API_KEY = ''
 
@@ -58,7 +57,6 @@ def fetch_streaming_data():
             'api_key': API_KEY,
             'beginDate': current_date.strftime("%Y-%m-%d"),
             'endDate': current_date.strftime("%Y-%m-%d"),
-            'programCodeInfo': 'CSOSG2E|CSOSG3'  # Add relevant filtering criteria
         }
 
         print(f"Fetching data for {parameters_streaming['beginDate']}...")
@@ -72,7 +70,6 @@ def fetch_streaming_data():
                 emissions_streaming_data = pd.concat([emissions_streaming_data, daily_df], ignore_index=True)
             else:
                 print(f"No data for {parameters_streaming['beginDate']}.")
-
         except requests.exceptions.RequestException as e:
             print(f"Error fetching data for {parameters_streaming['beginDate']}: {e}")
         current_date += timedelta(days=1)
@@ -88,10 +85,13 @@ def upload_to_postgres(data: pd.DataFrame):
     engine = create_postgres_engine(USERNAME, PASSWORD, HOST, PORT, DATABASE)
     insert_data_to_postgresql(engine, data, "streaming_emissions")
 
-@flow
+# Flow schedule
+@flow(name="Quarterly Data Pull")
 def quarterly_data_pull():
     data = fetch_streaming_data()
     upload_to_postgres(data)
 
 if __name__ == "__main__":
-    quarterly_data_pull()
+   
+    quarterly_data_pull.serve(name="Quarterly Data Pull Deployment", cron="0 0 1 * *")
+
