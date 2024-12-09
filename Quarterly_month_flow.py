@@ -4,19 +4,19 @@ from sqlalchemy import create_engine
 import pandas as pd
 import requests
 
-# PostgreSQL connection details
+# Replace with your current postgres credentials
 USERNAME = ''
 PASSWORD = ''
 HOST = ''
 PORT = ''
 DATABASE = ''
 
-# Create postgres engine
+# Create PostgreSQL engine
 def create_postgres_engine(username, password, host, port, database):
     connection_string = f"postgresql://{username}:{password}@{host}:{port}/{database}"
     return create_engine(connection_string)
 
-# Insert data into postgres
+# Insert data into PostgreSQL
 def insert_data_to_postgresql(engine, df, table_name):
     if not df.empty:
         try:
@@ -26,7 +26,8 @@ def insert_data_to_postgresql(engine, df, table_name):
             print(f"Error inserting data into {table_name}: {e}")
     else:
         print(f"No data to insert into {table_name}.")
-
+        
+# replace with your own API key
 API_KEY = ''
 
 @task(retries=3, retry_delay_seconds=60)
@@ -51,12 +52,14 @@ def fetch_streaming_data():
     print(f"Fetching data from {month_start.strftime('%Y-%m-%d')} to {month_end.strftime('%Y-%m-%d')}.")
     streaming_url = "https://api.epa.gov/easey/streaming-services/emissions/apportioned/hourly"
     current_date = month_start
-
+    
+# pull data only when unit is operating (no emissions data otherwise) for most recent month in quarter. 
     while current_date <= month_end:
         parameters_streaming = {
             'api_key': API_KEY,
             'beginDate': current_date.strftime("%Y-%m-%d"),
             'endDate': current_date.strftime("%Y-%m-%d"),
+            'operatingHoursOnly': True
         }
 
         print(f"Fetching data for {parameters_streaming['beginDate']}...")
@@ -85,13 +88,13 @@ def upload_to_postgres(data: pd.DataFrame):
     engine = create_postgres_engine(USERNAME, PASSWORD, HOST, PORT, DATABASE)
     insert_data_to_postgresql(engine, data, "streaming_emissions")
 
-# Flow schedule
+
 @flow(name="Quarterly Data Pull")
 def quarterly_data_pull():
     data = fetch_streaming_data()
     upload_to_postgres(data)
 
 if __name__ == "__main__":
-   
-    quarterly_data_pull.serve(name="Quarterly Data Pull Deployment", cron="0 0 1 * *")
+    quarterly_data_pull.serve(name="Quarterly Data Pull Deployment", cron="0 0 */90 * *")
+
 
