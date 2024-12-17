@@ -8,5 +8,8 @@ The dashboard will update with the most recent month in the quarter per the pref
 
 The data was configured within power BI based on EPA recommendations and the needs of the display. For example, gross load data was multiplied by operating time, which can be summed in hourly intervals using slicer selections. Emission rates were calculated by dividing output mass by heat input mass per the reporting time period. When using slicer options to review emissions data per fuel type, refer to the EPA website for limitations on these views. The API request limits incoming data only when units are operating, as emissions data is not reported otherwise.  
 
+Link to the working dashboard provided, sample below.
 
 SOURCE: United States Environmental Protection Agency (EPA). “Clean Air Markets Program Data.” Washington, DC: Office of Atmospheric Protection, Clean Air and Power Division. Available from EPA’s Air Markets Program Data web site: https://campd.epa.gov/.
+
+![image](https://github.com/user-attachments/assets/5e22ebba-85bf-4928-9d0c-73b1b53067ee)
