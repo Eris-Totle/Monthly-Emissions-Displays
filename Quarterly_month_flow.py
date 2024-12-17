@@ -59,7 +59,7 @@ def fetch_streaming_data():
             'api_key': API_KEY,
             'beginDate': current_date.strftime("%Y-%m-%d"),
             'endDate': current_date.strftime("%Y-%m-%d"),
-            'operatingHoursOnly': True
+            'operatingHoursOnly': "true"
         }
 
         print(f"Fetching data for {parameters_streaming['beginDate']}...")
