@@ -35,7 +35,7 @@ def fetch_streaming_data():
     emissions_streaming_data = pd.DataFrame()
     today = datetime.today()
 
-    # Determine the most recent month in the current quarter
+    # Determine the most recent month in the current quarter, modify as needed if wanting to pull full quarter
     if today.month in [1, 2, 3]:
         month_start = datetime(today.year - 1, 12, 1)
         month_end = datetime(today.year - 1, 12, 31)
@@ -53,7 +53,7 @@ def fetch_streaming_data():
     streaming_url = "https://api.epa.gov/easey/streaming-services/emissions/apportioned/hourly"
     current_date = month_start
     
-# pull data only when unit is operating (no emissions data otherwise) for most recent month in quarter. 
+# pull data only when unit is operating (no emissions data otherwise) for most recent month in quarter, adjust code as needed to fit your interests. . 
     while current_date <= month_end:
         parameters_streaming = {
             'api_key': API_KEY,
