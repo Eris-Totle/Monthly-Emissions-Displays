@@ -16,7 +16,7 @@ def create_postgres_engine(username, password, host, port, database):
     connection_string = f"postgresql://{username}:{password}@{host}:{port}/{database}"
     return create_engine(connection_string)
 
-# Insert data into PostgreSQL
+# Insert data into postgres
 def insert_data_to_postgresql(engine, df, table_name):
     if not df.empty:
         try:
@@ -27,7 +27,7 @@ def insert_data_to_postgresql(engine, df, table_name):
     else:
         print(f"No data to insert into {table_name}.")
         
-# replace with your own API key
+# if interested in pulling the data, visit the EPA website for your own API key and insert here
 API_KEY = ''
 
 @task(retries=3, retry_delay_seconds=60)
