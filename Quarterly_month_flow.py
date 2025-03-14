@@ -20,7 +20,7 @@ def create_postgres_engine(username, password, host, port, database):
 def insert_data_to_postgresql(engine, df, table_name):
     if not df.empty:
         try:
-            df.to_sql(table_name, engine, if_exists="append", index=False)  # Append data to avoid overwriting
+            df.to_sql(table_name, engine, if_exists="append", index=False)  
             print(f"Data inserted into {table_name} successfully!")
         except Exception as e:
             print(f"Error inserting data into {table_name}: {e}")
