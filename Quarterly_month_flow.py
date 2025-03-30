@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 import pandas as pd
 import requests
 
-# These are the generic items needed for postgres connection. If you plan on running the project on your, full in with you individual credentials. 
+# These are the generic items needed for postgres connection. If you plan on running the project on your own, full in with you individual credentials. 
 USERNAME = ''
 PASSWORD = ''
 HOST = ''
